@@ -1,9 +1,9 @@
-import Comp from "./components/component";
-
+import UploadForm from "./components/uploadForm";
+import Layout from "./components/layout";
 export default function App() {
 	return (
-		<div className="App">
-			<Comp />
-		</div>
+		<Layout>
+			<UploadForm />
+		</Layout>
 	);
 }
