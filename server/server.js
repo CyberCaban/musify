@@ -10,10 +10,17 @@ app.use(express.json());
 
 app.use("/api", api);
 
-app.listen(PORT, () => {
-	console.log(`started server at ${PORT}`);
-});
+const start = () => {
+	try {
+		app.listen(PORT, () => {
+			console.log(`started server at ${PORT}`);
+		});
+		app.get("*", (req, res) => {
+			res.sendFile(path.resolve(__dirname, "../dist/index.html"));
+		});
+	} catch (e) {
+		console.log(e);
+	}
+};
 
-app.get("*", (req, res) => {
-	res.sendFile(path.resolve(__dirname, "../dist/index.html"));
-});
+start();

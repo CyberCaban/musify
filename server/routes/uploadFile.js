@@ -6,6 +6,7 @@ const uploadFile = (req, res) => {
 	const fileData = {
 		fileName: req.file.filename,
 	};
+	console.log(req.file);
 	db.insert(fileData);
 	db.find({}, function (err, docs) {
 		res.send(docs);

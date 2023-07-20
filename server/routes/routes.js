@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { uploadFile } = require("./uploadFile");
-const { upload } = require("./uploadSetup");
+const { upload } = require("./upload");
 const { clearDB } = require("./cleardb");
 
 router.post("/uploadFile", upload.single("file"), uploadFile);
