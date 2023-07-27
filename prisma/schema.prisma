@@ -11,11 +11,13 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  email    String
-  password String
-  name     String
-  tracks   Track[]
+  id           String  @id @default(uuid())
+  role         String
+  email        String @unique
+  password     String
+  name         String
+  tracks       Track[]
+  refreshToken String?
 }
 
 model Track {

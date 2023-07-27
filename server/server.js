@@ -1,14 +1,20 @@
+require("dotenv").config();
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const app = express();
 const path = require("path");
 const PORT = process.env.PORT || 3000;
 
 const api = require("./routes/routes");
+const auth = require("./routes/authRouter");
 
 app.use(express.static(path.resolve("./dist")));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api", api);
+app.use("/auth", auth);
 
 const start = () => {
 	try {
