@@ -56,13 +56,14 @@ const register = async (req, res) => {
 				httpOnly: true,
 			});
 			res.status(200).json({
+				refreshToken: token.refreshToken,
+				accessToken: token.accessToken,
 				id: user.id,
 				email: user.email,
 				name: user.name,
-				password: user.password,
+				// password: user.password,
 				role: user.role,
 				tracks: user.tracks,
-				token: token.refreshToken,
 			});
 		}
 	} catch (e) {
@@ -101,14 +102,14 @@ const login = async (req, res) => {
 				httpOnly: true,
 			});
 			res.status(200).json({
+				refreshToken: token.refreshToken,
+				accessToken: token.accessToken,
 				id: user.id,
 				email: user.email,
 				name: user.name,
-				password: user.password,
+				// password: user.password,
 				role: user.role,
 				tracks: user.tracks,
-				refreshToken: token.refreshToken,
-				accessToken: token.accessToken,
 			});
 		} else {
 			res.status(400).json({ message: "Неверный логин или пароль" });

@@ -1,5 +1,8 @@
 const { prisma } = require("../../../prisma/prisma-client");
-const { verifyAccessToken } = require("../../service/tokenService");
+const {
+	verifyAccessToken,
+	verifyRefreshToken,
+} = require("../../service/tokenService");
 
 const auth = async (req, res, next) => {
 	try {
@@ -10,6 +13,7 @@ const auth = async (req, res, next) => {
 		}
 
 		const userData = verifyAccessToken(token);
+		// console.log(token);
 
 		const user = await prisma.user.findUnique({
 			where: { email: userData.payload },
@@ -23,4 +27,5 @@ const auth = async (req, res, next) => {
 		return res.status(403).json({ message: "Не авторизован" });
 	}
 };
+
 module.exports = { auth };

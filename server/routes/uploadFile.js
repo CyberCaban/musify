@@ -1,16 +1,29 @@
-const Datastore = require("nedb");
-const db = new Datastore({ filename: "./server/data" });
-db.loadDatabase();
+const { prisma } = require("../../prisma/prisma-client");
+const { verifyRefreshToken } = require("../service/tokenService");
 
-const uploadFile = (req, res) => {
-	const fileData = {
-		fileName: req.file.filename,
-	};
-	console.log(req.file);
-	db.insert(fileData);
-	db.find({}, function (err, docs) {
-		res.send(docs);
-	});
+const uploadFile = async (req, res) => {
+	try {
+		console.log(req.body.newName);
+		const name = req.body.newName;
+
+		const { refreshToken } = req.cookies;
+		const email = verifyRefreshToken(refreshToken).payload;
+
+		const user = await prisma.user.findFirst({ where: { email } });
+
+		const test = await prisma.track.create({
+			data: {
+				filename: req.file.filename,
+				title: name,
+				author: { connect: { email } },
+			},
+		});
+		console.log(test);
+
+		return res.json({ user });
+	} catch (e) {
+		console.log(e);
+	}
 };
 
 module.exports = { uploadFile };
