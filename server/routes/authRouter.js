@@ -5,7 +5,7 @@ const {
 	login,
 	getAllUsers,
 	logout,
-	test,
+	getAllTracks,
 	refresh,
 } = require("./authController");
 const { roleCheck } = require("./middleware/role");
@@ -14,7 +14,7 @@ const { auth } = require("./middleware/auth");
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);
-router.post("/test", test);
+router.post("/test", getAllTracks);
 router.get("/refresh", refresh);
 router.get("/users", auth, getAllUsers);
 

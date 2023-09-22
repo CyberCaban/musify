@@ -182,10 +182,10 @@ const getAllUsers = async (req, res) => {
 	}
 };
 
-const test = async (req, res) => {
+const getAllTracks = async (req, res) => {
 	try {
-		const { refreshToken } = req.cookies;
-		console.log(verifyRefreshToken(refreshToken));
+		const tracks = await prisma.track.findMany();
+		res.status(200).json(tracks);
 	} catch (e) {
 		console.log(e);
 	}
@@ -197,5 +197,5 @@ module.exports = {
 	getAllUsers,
 	logout,
 	refresh,
-	test,
+	getAllTracks,
 };
