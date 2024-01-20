@@ -1,44 +1,56 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function UploadForm() {
-	const [files, setFiles] = useState([]);
+  const [message, setMessage] = useState("");
+  const fileInput = useRef<HTMLFormElement>(null);
 
-	useEffect(() => {
-		console.log(files);
-	}, [files]);
+  useEffect(() => {
+    const resetMessage = setTimeout(() => {
+      setMessage("");
+    }, 5000);
 
-	function sendFile(e: any) {
-		const trackTitle: string = e.target[0].files[0].name;
-		console.log(trackTitle.split(".")[0], e.target[1].value);
-		e.preventDefault();
+    return () => clearTimeout(resetMessage);
+  }, [message]);
 
-		const formData = new FormData();
-		formData.append("file", e.target[0].files[0]);
-		// formData.set("originalname", e.target[1].value);
-		formData.append("newName", e.target[1].value);
+  function sendFile(e: any) {
+    e.preventDefault();
 
-		axios.post("/api/uploadFile", formData, {}).then((res) => {
-			setFiles(res.data);
-			console.log(formData);
-		});
-	}
+    const form = fileInput.current;
 
-	function dropDB() {
-		axios.post("/api/clearDB");
-		console.log("database cleared");
-	}
+    const [file] = form?.fileInput.files;
+    const newName: string = form?.trackTitle.value;
 
-	return (
-		<div>
-			<form onSubmit={(e) => sendFile(e)} encType="multipart/form-data">
-				<input type="file" name="file" id="fileInput" />
-				<input type="text" name="title" id="trackTitle" />
-				<button type="submit">Submit</button>
-			</form>
-			<button onClick={() => dropDB()} type="button">
-				Clear database
-			</button>
-		</div>
-	);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("newName", newName);
+
+    axios.post("/api/uploadFile", formData).then((res) => {
+      //   console.log(res);
+      setMessage(res.data.message);
+    });
+  }
+
+  function test() {
+    console.log(fileInput);
+    console.log(fileInput.current?.trackTitle.value);
+  }
+
+  return (
+    <div>
+      <form
+        onSubmit={(e) => sendFile(e)}
+        encType="multipart/form-data"
+        ref={fileInput}
+      >
+        <input type="file" name="fileInput" id="fileInput" required />
+        <input type="text" name="trackTitle" id="trackTitle" required />
+        <button type="submit">Submit</button>
+      </form>
+      <h2>{message}</h2>
+      {/* <button onClick={test} type="button">
+        test
+      </button> */}
+    </div>
+  );
 }

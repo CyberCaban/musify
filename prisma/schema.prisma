@@ -15,10 +15,19 @@ model User {
   name         String
   refreshToken String?
   tracks       Track[]
+  pictures Picture[]
 }
 
 model Track {
   id       String @id @default(uuid())
+  filename String
+  title    String
+  userId   String
+  author   User   @relation(fields: [userId], references: [id])
+}
+
+model Picture{
+  id String @id @default(uuid())
   filename String
   title    String
   userId   String

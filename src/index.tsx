@@ -10,19 +10,21 @@ const Home = lazy(() => import("./pages/Home"));
 const Register = lazy(() => import("./pages/Register"));
 const Login = lazy(() => import("./pages/Login"));
 const UploadPage = lazy(() => import("./pages/UploadPage"));
+const Gallery = lazy(() => import("./pages/Gallery"));
 
 const router = createBrowserRouter([
-	{ path: Paths.home, element: <Home /> },
-	{ path: Paths.register, element: <Register /> },
-	{ path: Paths.login, element: <Login /> },
-	{ path: Paths.uploadPage, element: <UploadPage /> },
+  { path: Paths.home, element: <Home /> },
+  { path: Paths.register, element: <Register /> },
+  { path: Paths.login, element: <Login /> },
+  { path: Paths.uploadPage, element: <UploadPage /> },
+  { path: Paths.gallery, element: <Gallery /> },
 ]);
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-	<Provider store={store}>
-		<Suspense fallback="Loading...">
-			<RouterProvider router={router} />
-		</Suspense>
-	</Provider>
+  <Provider store={store}>
+    <Suspense fallback="Loading...">
+      <RouterProvider router={router} />
+    </Suspense>
+  </Provider>
 );
